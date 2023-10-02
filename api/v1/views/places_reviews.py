@@ -45,6 +45,7 @@ def del_review(review_id):
 @app_views.route('/places/<place_id>/reviews', methods=['POST'],
                  strict_slashes=False)
 def post_review(place_id):
+    """ creates a new review instance """
     if not request.json:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     pl = storage.get(Place, place_id)

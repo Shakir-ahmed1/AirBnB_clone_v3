@@ -44,6 +44,7 @@ def del_place(place_id):
 @app_views.route('/cities/<city_id>/places', methods=['POST'],
                  strict_slashes=False)
 def post_place(city_id):
+    """ creates a new city """
     if not request.json:
         return make_response(jsonify({'error': 'Not a JSON'}), 400)
     ct = storage.get(City, city_id)

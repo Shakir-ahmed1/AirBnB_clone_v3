@@ -117,9 +117,8 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(json.loads(string), json.loads(js))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_get(self):
+    def test_get_all(self):
         """ tests the get method """
-        # for all classes
         ids = {}
         for clss in classes:
             instance = classes[clss]()
@@ -139,9 +138,8 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsNone(storage.get(State, test_id))
 
     @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
-    def test_count(self):
-        """ test the count method """
-        # adding 1 object and count all
+    def test_count_one(self):
+        """ test the count method for 1 State"""
         storage.reload()
         cn1 = storage.count()
         i = State()
@@ -151,7 +149,10 @@ class TestFileStorage(unittest.TestCase):
         self.assertEqual(cn1 + 1, cn2)
         self.assertIsInstance(cn2, int)
         self.assertNotEqual(cn1, cn2)
-        # adding 1 instance for each class and count each class and compare
+
+    @unittest.skipIf(models.storage_t == 'db', "not testing file storage")
+    def test_count_all(self):
+        """ adding 1 instance for each class and count and compare"""
         counts = {}
         for clss in classes:
             counts[clss] = storage.count(clss)

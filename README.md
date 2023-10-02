@@ -125,7 +125,9 @@ TestBaseModel class:
 * `def test_pep8_conformance_test_user(self)` - Test that tests/test_models/test_user.py conforms to PEP8
 * `def test_user_module_docstring(self)` - Test for the user.py module docstring
 * `def test_user_class_docstring(self)` - Test for the User class docstring
-
+* `def test_count_one(self)` - Tests for 1 element entry for counting
+* `def test_count_all(self)` - Adds elements to all classes
+* `def test_get_all(self)` - Tests to get all States and a single instanse of State
 
 ## Examples of use
 ```
