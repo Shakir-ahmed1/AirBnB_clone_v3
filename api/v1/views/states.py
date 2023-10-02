@@ -46,19 +46,20 @@ def post_states():
     info = request.get_json()
     st = State(**info)
     st.save()
+    storage.save()
     return make_response(jsonify(st.to_dict()), 201)
 
-@app_views.route('/states/<state_id>', methods = ['PUT'], strict_slashes=False)
+
+@app_views.route('/states/<state_id>', methods=['PUT'], strict_slashes=False)
 def update_state(state_id):
     """ updates the given id """
     if not request.json:
         return make_request('Not a JSON', 400)
     a = storage.get(State, state_id)
     if a is None:
-        abort (404)
-    print(type(request.json))
+        abort(404)
     for key in request.json:
         if key not in ['id', 'created_at', 'updated_at']:
-            setattr(a, key, request.get_json(key).get(key))
+            setattr(a, key, request.get_json().get(key))
     a.save()
     return jsonify(a.to_dict()), 200
