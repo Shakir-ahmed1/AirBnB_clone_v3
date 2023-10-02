@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 """ api controller for the flask module """
 from api.v1.views import app_views
-from flask import Flask, jsonify
+from flask import Flask, jsonify, make_response
 from models import storage
 from os import getenv as genv
 app = Flask(__name__)
@@ -17,7 +17,7 @@ def remove_session(exception):
 @app.errorhandler(404)
 def page_not_found(exception):
     """ handles error for 404 """
-    return jsonify({"error": "Not found"})
+    return make_response(jsonify({"error": "Not found"}), 404)
 
 
 if __name__ == "__main__":
