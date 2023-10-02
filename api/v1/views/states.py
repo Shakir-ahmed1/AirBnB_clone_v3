@@ -62,4 +62,4 @@ def update_state(state_id):
         if key not in ['id', 'created_at', 'updated_at']:
             setattr(a, key, request.get_json().get(key))
     a.save()
-    return jsonify(a.to_dict()), 200
+    return make_response(jsonify(a.to_dict()), 200)
