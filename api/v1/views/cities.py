@@ -5,7 +5,6 @@ from flask import jsonify, abort, make_response, request
 from models import storage
 from models.state import State
 from models.city import City
-from uuid import uuid4
 
 
 @app_views.route('/states/<state_id>/cities', strict_slashes=False)

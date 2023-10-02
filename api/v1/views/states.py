@@ -4,7 +4,6 @@ from api.v1.views import app_views
 from flask import jsonify, abort, make_response, request
 from models import storage
 from models.state import State
-from uuid import uuid4
 
 
 @app_views.route('/states', strict_slashes=False)
