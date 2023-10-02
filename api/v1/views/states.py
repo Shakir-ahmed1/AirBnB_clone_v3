@@ -1,15 +1,15 @@
 #!/usr/bin/python3
 """ view definetion of the state module """
 from api.v1.views import app_views
-from flask import jsonify, abort, make_response
+from flask import jsonify, abort, make_response, request
 from models import storage
 from models.state import State
 from uuid import uuid4
 
 
-@app_views.route('/states')
-@app_views.route('/states/<state_id>')
-def get_states(state_id=None, strict_slashes=False):
+@app_views.route('/states', strict_slashes=False)
+@app_views.route('/states/<state_id>', strict_slashes=False)
+def get_states(state_id=None):
     """ gets all states or one state """
     if state_id is None:
         result = []
@@ -24,7 +24,8 @@ def get_states(state_id=None, strict_slashes=False):
         abort(404)
 
 
-@app_views.route('/states/<state_id>', methods=['DELETE'], strict_slashes=False)
+@app_views.route('/states/<state_id>', methods=['DELETE'],
+                 strict_slashes=False)
 def del_states(state_id):
     """ deletes the given state by id """
     sts = storage.get(State, state_id)
@@ -33,3 +34,31 @@ def del_states(state_id):
     sts.delete()
     storage.save()
     return make_response(jsonify({}), 200)
+
+
+@app_views.route('/states', methods=['POST'], strict_slashes=False)
+def post_states():
+    """ creates a new state """
+    if not request.json:
+        return make_response('Not a JSON', 400)
+    elif 'name' not in request.json:
+        return make_response('Missing name', 400)
+    info = request.get_json()
+    st = State(**info)
+    st.save()
+    return make_response(jsonify(st.to_dict()), 201)
+
+@app_views.route('/states/<state_id>', methods = ['PUT'], strict_slashes=False)
+def update_state(state_id):
+    """ updates the given id """
+    if not request.json:
+        return make_request('Not a JSON', 400)
+    a = storage.get(State, state_id)
+    if a is None:
+        abort (404)
+    print(type(request.json))
+    for key in request.json:
+        if key not in ['id', 'created_at', 'updated_at']:
+            setattr(a, key, request.get_json(key).get(key))
+    a.save()
+    return jsonify(a.to_dict()), 200
