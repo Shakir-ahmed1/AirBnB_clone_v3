@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" api controller flask module """
+""" api controller for the flask module """
 from api.v1.views import app_views
 from flask import Flask, jsonify
 from models import storage
